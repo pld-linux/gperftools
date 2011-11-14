@@ -1,7 +1,7 @@
 Summary:	Fast, multi-threaded malloc and performance analysis tools
 Name:		google-perftools
 Version:	1.8.3
-Release:	1
+Release:	2
 License:	BSD
 Group:		Libraries
 Source0:	http://google-perftools.googlecode.com/files/%{name}-%{version}.tar.gz
@@ -48,8 +48,17 @@ google-perftools.
 %install
 rm -rf $RPM_BUILD_ROOT
 
+install -d $RPM_BUILD_ROOT/%{_lib}
+
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
+
+for pkg in libtcmalloc libtcmalloc_minimal; do
+	mv $RPM_BUILD_ROOT%{_libdir}/${pkg}.so.* \
+		$RPM_BUILD_ROOT/%{_lib}
+	ln -snf /%{_lib}/$(basename $RPM_BUILD_ROOT/%{_lib}/${pkg}.so.*.*.*) \
+		$RPM_BUILD_ROOT/%{_libdir}/${pkg}.so
+done
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -64,14 +73,14 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/pprof
 %ghost %{_libdir}/libprofiler.so.0
 %attr(755,root,root) %{_libdir}/libprofiler.so.*.*.*
-%ghost %{_libdir}/libtcmalloc.so.0
-%attr(755,root,root) %{_libdir}/libtcmalloc.so.*.*.*
+%ghost /%{_lib}/libtcmalloc.so.0
+%attr(755,root,root) /%{_lib}/libtcmalloc.so.*.*.*
 %ghost %{_libdir}/libtcmalloc_and_profiler.so.0
 %attr(755,root,root) %{_libdir}/libtcmalloc_and_profiler.so.*.*.*
 %ghost %{_libdir}/libtcmalloc_debug.so.0
 %attr(755,root,root) %{_libdir}/libtcmalloc_debug.so.*.*.*
-%ghost %{_libdir}/libtcmalloc_minimal.so.0
-%attr(755,root,root) %{_libdir}/libtcmalloc_minimal.so.*.*.*
+%ghost /%{_lib}/libtcmalloc_minimal.so.0
+%attr(755,root,root) /%{_lib}/libtcmalloc_minimal.so.*.*.*
 %ghost %{_libdir}/libtcmalloc_minimal_debug.so.0
 %attr(755,root,root) %{_libdir}/libtcmalloc_minimal_debug.so.*.*.*
 %{_mandir}/man1/pprof.1*
