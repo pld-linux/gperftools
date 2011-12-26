@@ -3,13 +3,13 @@
 Summary:	Fast, multi-threaded malloc and performance analysis tools
 Summary(pl.UTF-8):	Szybka, wielowątkowa implementacja malloc i narzędzia do analizy wydajności
 Name:		google-perftools
-Version:	1.8.3
-Release:	3
+Version:	1.9.1
+Release:	1
 License:	BSD
 Group:		Libraries
 #Source0Download: http://code.google.com/p/google-perftools/downloads/list
 Source0:	http://google-perftools.googlecode.com/files/%{name}-%{version}.tar.gz
-# Source0-md5:	70c95322c9bac97e67f0162e4cc55996
+# Source0-md5:	f5cb6030d8a15cb8c3a2638a88ff1fe4
 URL:		http://code.google.com/p/google-perftools/
 BuildRequires:	libstdc++-devel
 BuildRequires:	libtool
