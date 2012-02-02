@@ -3,13 +3,13 @@
 Summary:	Fast, multi-threaded malloc and performance analysis tools
 Summary(pl.UTF-8):	Szybka, wielowątkowa implementacja malloc i narzędzia do analizy wydajności
 Name:		google-perftools
-Version:	1.9.1
+Version:	1.10
 Release:	1
 License:	BSD
 Group:		Libraries
-#Source0Download: http://code.google.com/p/google-perftools/downloads/list
-Source0:	http://google-perftools.googlecode.com/files/%{name}-%{version}.tar.gz
-# Source0-md5:	f5cb6030d8a15cb8c3a2638a88ff1fe4
+# Source0Download: http://code.google.com/p/google-perftools/downloads/list
+Source0:	http://gperftools.googlecode.com/files/%{name}-%{version}.tar.gz
+# Source0-md5:	d3821ffd8a99497c230a1c9652c9c304
 URL:		http://code.google.com/p/google-perftools/
 BuildRequires:	libstdc++-devel
 BuildRequires:	libtool
@@ -75,8 +75,8 @@ Szybka, wielowątkowa implementacja malloc firmy Google.
 Summary:	Fast, multi-threaded malloc by Google - header files
 Summary(pl.UTF-8):	Szybka, wielowątkowa implementacja malloc firmy Google - pliki nagłówkowe
 Group:		Development/Libraries
-Requires:	libtcmalloc = %{version}-%{release}
 Requires:	libstdc++-devel
+Requires:	libtcmalloc = %{version}-%{release}
 
 %description -n libtcmalloc-devel
 Fast, multi-threaded malloc by Google - header files.
@@ -140,11 +140,11 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libprofiler.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libprofiler.so.0
 %attr(755,root,root) %{_libdir}/libtcmalloc_and_profiler.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libtcmalloc_and_profiler.so.0
+%attr(755,root,root) %ghost %{_libdir}/libtcmalloc_and_profiler.so.4
 %attr(755,root,root) %{_libdir}/libtcmalloc_debug.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libtcmalloc_debug.so.0
+%attr(755,root,root) %ghost %{_libdir}/libtcmalloc_debug.so.4
 %attr(755,root,root) %{_libdir}/libtcmalloc_minimal_debug.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libtcmalloc_minimal_debug.so.0
+%attr(755,root,root) %ghost %{_libdir}/libtcmalloc_minimal_debug.so.4
 %{_mandir}/man1/pprof.1*
 
 %files devel
@@ -172,9 +172,9 @@ rm -rf $RPM_BUILD_ROOT
 %files -n libtcmalloc
 %defattr(644,root,root,755)
 %attr(755,root,root) /%{_lib}/libtcmalloc.so.*.*.*
-%attr(755,root,root) %ghost /%{_lib}/libtcmalloc.so.0
+%attr(755,root,root) %ghost /%{_lib}/libtcmalloc.so.4
 %attr(755,root,root) /%{_lib}/libtcmalloc_minimal.so.*.*.*
-%attr(755,root,root) %ghost /%{_lib}/libtcmalloc_minimal.so.0
+%attr(755,root,root) %ghost /%{_lib}/libtcmalloc_minimal.so.4
 
 %files -n libtcmalloc-devel
 %defattr(644,root,root,755)
