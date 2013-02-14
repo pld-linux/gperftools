@@ -2,21 +2,23 @@
 #
 Summary:	Fast, multi-threaded malloc and performance analysis tools
 Summary(pl.UTF-8):	Szybka, wielowątkowa implementacja malloc i narzędzia do analizy wydajności
-Name:		google-perftools
-Version:	1.10
+Name:		gperftools
+Version:	2.0
 Release:	1
 License:	BSD
 Group:		Libraries
-# Source0Download: http://code.google.com/p/google-perftools/downloads/list
+# Source0Download: http://code.google.com/p/gperftools/downloads/list
 Source0:	http://gperftools.googlecode.com/files/%{name}-%{version}.tar.gz
-# Source0-md5:	d3821ffd8a99497c230a1c9652c9c304
-URL:		http://code.google.com/p/google-perftools/
+# Source0-md5:	13f6e8961bc6a26749783137995786b6
+Patch0:		%{name}-glibc216-siginfo_t.patch
+URL:		http://code.google.com/p/gperftools/
 BuildRequires:	libstdc++-devel
 BuildRequires:	libtool
 %ifarch %{x8664} ia64
 BuildRequires:	libunwind-devel >= 0.98.6
 %endif
 Requires:	libtcmalloc = %{version}-%{release}
+Obsoletes:	google-perftools < 2.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -37,6 +39,7 @@ Summary(pl.UTF-8):	Pliki programistyczne bibliotek perftools
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 Requires:	libtcmalloc-devel = %{version}-%{release}
+Obsoletes:	google-perftools-devel < 2.0
 
 %description devel
 The google-perftools-devel package contains the header files needed to
@@ -51,6 +54,7 @@ Summary:	Static perftools libraries
 Summary(pl.UTF-8):	Statyczne biblioteki perftools
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
+Obsoletes:	google-perftools-static < 2.0
 
 %description static
 The google-perftools-static package contains the static libraries of
@@ -100,6 +104,7 @@ statyczne.
 
 %prep
 %setup -q
+%patch0 -p1
 
 %build
 %configure \
@@ -122,6 +127,9 @@ for pkg in libtcmalloc libtcmalloc_minimal; do
 	ln -snf /%{_lib}/$(basename $RPM_BUILD_ROOT/%{_lib}/${pkg}.so.*.*.*) \
 		$RPM_BUILD_ROOT/%{_libdir}/${pkg}.so
 done
+
+# clean docdir
+%{__rm} -r $RPM_BUILD_ROOT%{_datadir}/doc/%{name}-%{version}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -158,6 +166,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libtcmalloc_minimal_debug.la
 %{_libdir}/libprofiler.la
 %{_includedir}/google/profiler.h
+%{_includedir}/gperftools/profiler.h
 %{_pkgconfigdir}/libprofiler.pc
 %{_pkgconfigdir}/libtcmalloc_debug.pc
 %{_pkgconfigdir}/libtcmalloc_minimal_debug.pc
@@ -188,6 +197,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/google/malloc_hook*.h
 %{_includedir}/google/stacktrace.h
 %{_includedir}/google/tcmalloc.h
+%dir %{_includedir}/gperftools
+%{_includedir}/gperftools/heap-*.h
+%{_includedir}/gperftools/malloc_extension*.h
+%{_includedir}/gperftools/malloc_hook*.h
+%{_includedir}/gperftools/stacktrace.h
+%{_includedir}/gperftools/tcmalloc.h
 %{_pkgconfigdir}/libtcmalloc.pc
 %{_pkgconfigdir}/libtcmalloc_minimal.pc
 
