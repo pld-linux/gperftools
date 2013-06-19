@@ -4,7 +4,7 @@ Summary:	Fast, multi-threaded malloc and performance analysis tools
 Summary(pl.UTF-8):	Szybka, wielowątkowa implementacja malloc i narzędzia do analizy wydajności
 Name:		gperftools
 Version:	2.0
-Release:	1
+Release:	2
 License:	BSD
 Group:		Libraries
 # Source0Download: http://code.google.com/p/gperftools/downloads/list
