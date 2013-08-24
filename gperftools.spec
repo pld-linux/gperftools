@@ -3,17 +3,15 @@
 Summary:	Fast, multi-threaded malloc and performance analysis tools
 Summary(pl.UTF-8):	Szybka, wielowątkowa implementacja malloc i narzędzia do analizy wydajności
 Name:		gperftools
-Version:	2.0
-Release:	2
+Version:	2.1
+Release:	1
 License:	BSD
 Group:		Libraries
 # Source0Download: http://code.google.com/p/gperftools/downloads/list
 Source0:	http://gperftools.googlecode.com/files/%{name}-%{version}.tar.gz
-# Source0-md5:	13f6e8961bc6a26749783137995786b6
-Patch0:		%{name}-glibc216-siginfo_t.patch
+# Source0-md5:	5e5a981caf9baa9b4afe90a82dcf9882
 URL:		http://code.google.com/p/gperftools/
 BuildRequires:	libstdc++-devel
-BuildRequires:	libtool
 %ifarch %{x8664} ia64
 BuildRequires:	libunwind-devel >= 0.98.6
 %endif
@@ -104,7 +102,6 @@ statyczne.
 
 %prep
 %setup -q
-%patch0 -p1
 
 %build
 %configure \
