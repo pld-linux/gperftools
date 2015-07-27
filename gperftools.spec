@@ -13,7 +13,7 @@ Summary:	Fast, multi-threaded malloc and performance analysis tools
 Summary(pl.UTF-8):	Szybka, wielowątkowa implementacja malloc i narzędzia do analizy wydajności
 Name:		gperftools
 Version:	2.1
-Release:	2
+Release:	3
 License:	BSD
 Group:		Libraries
 # Source0Download: http://code.google.com/p/gperftools/downloads/list
@@ -210,6 +210,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/google/malloc_hook*.h
 %{_includedir}/google/stacktrace.h
 %{_includedir}/google/tcmalloc.h
+%dir %{_includedir}/gperftools
 %{_includedir}/gperftools/malloc_extension*.h
 %{_includedir}/gperftools/malloc_hook*.h
 %{_includedir}/gperftools/tcmalloc.h
@@ -219,7 +220,6 @@ rm -rf $RPM_BUILD_ROOT
 %if %{without minimal}
 %attr(755,root,root) %{_libdir}/libtcmalloc.so
 %{_libdir}/libtcmalloc.la
-%dir %{_includedir}/gperftools
 %{_includedir}/gperftools/heap-*.h
 %{_includedir}/gperftools/stacktrace.h
 %endif
