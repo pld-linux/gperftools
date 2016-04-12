@@ -4,26 +4,28 @@
 
 # Conditional build:
 %bcond_with	minimal		# build only build only tcmalloc-minimal
+%bcond_without	libunwind	# libunwind for backtraces (esp. without frame info)
 
 %ifarch x32
 %define	with_minimal	1
+%endif
+%ifnarch %{ix86} %{x8664} ia64
+%undefine	with_libunwind
 %endif
 
 Summary:	Fast, multi-threaded malloc and performance analysis tools
 Summary(pl.UTF-8):	Szybka, wielowątkowa implementacja malloc i narzędzia do analizy wydajności
 Name:		gperftools
-Version:	2.1
-Release:	3
+Version:	2.4
+Release:	1
 License:	BSD
 Group:		Libraries
-# Source0Download: http://code.google.com/p/gperftools/downloads/list
-Source0:	http://gperftools.googlecode.com/files/%{name}-%{version}.tar.gz
-# Source0-md5:	5e5a981caf9baa9b4afe90a82dcf9882
-URL:		http://code.google.com/p/gperftools/
+# Source0Download: https://github.com/gperftools/gperftools/releases
+Source0:	https://github.com/gperftools/gperftools/releases/download/%{name}-%{version}/%{name}-%{version}.tar.gz
+# Source0-md5:	2171cea3bbe053036fb5d5d25176a160
+URL:		https://github.com/gperftools/gperftools
 BuildRequires:	libstdc++-devel
-%ifarch %{x8664} ia64
-BuildRequires:	libunwind-devel >= 0.98.6
-%endif
+%{?with_libunwind:BuildRequires:	libunwind-devel >= 0.98.6}
 Requires:	libtcmalloc = %{version}-%{release}
 Obsoletes:	google-perftools < 2.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -88,6 +90,7 @@ Summary(pl.UTF-8):	Szybka, wielowątkowa implementacja malloc firmy Google - pli
 Group:		Development/Libraries
 Requires:	libstdc++-devel
 Requires:	libtcmalloc = %{version}-%{release}
+%{?with_libunwind:Requires:	libunwind-devel >= 0.98.6}
 
 %description -n libtcmalloc-devel
 Fast, multi-threaded malloc by Google - header files.
@@ -114,9 +117,7 @@ statyczne.
 
 %build
 %configure \
-%ifnarch %{x8664} ia64
-	ac_cv_lib_unwind_backtrace=no \
-%endif
+	%{!?with_libunwind:--disable-libunwind} \
 	%{?with_minimal:--enable-minimal}
 
 %{__make}
@@ -128,7 +129,7 @@ install -d $RPM_BUILD_ROOT/%{_lib}
 	DESTDIR=$RPM_BUILD_ROOT
 
 for pkg in %{!?with_minimal:libtcmalloc} libtcmalloc_minimal; do
-	mv $RPM_BUILD_ROOT%{_libdir}/${pkg}.so.* \
+	%{__mv} $RPM_BUILD_ROOT%{_libdir}/${pkg}.so.* \
 		$RPM_BUILD_ROOT/%{_lib}
 	ln -snf /%{_lib}/$(basename $RPM_BUILD_ROOT/%{_lib}/${pkg}.so.*.*.*) \
 		$RPM_BUILD_ROOT/%{_libdir}/${pkg}.so
