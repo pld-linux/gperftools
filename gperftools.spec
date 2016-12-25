@@ -16,13 +16,13 @@
 Summary:	Fast, multi-threaded malloc and performance analysis tools
 Summary(pl.UTF-8):	Szybka, wielowątkowa implementacja malloc i narzędzia do analizy wydajności
 Name:		gperftools
-Version:	2.4
+Version:	2.5
 Release:	1
 License:	BSD
 Group:		Libraries
 # Source0Download: https://github.com/gperftools/gperftools/releases
 Source0:	https://github.com/gperftools/gperftools/releases/download/%{name}-%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	2171cea3bbe053036fb5d5d25176a160
+# Source0-md5:	aa1eaf95dbe2c9828d0bd3a00f770f50
 URL:		https://github.com/gperftools/gperftools
 BuildRequires:	libstdc++-devel
 %{?with_libunwind:BuildRequires:	libunwind-devel >= 0.98.6}
@@ -135,8 +135,8 @@ for pkg in %{!?with_minimal:libtcmalloc} libtcmalloc_minimal; do
 		$RPM_BUILD_ROOT/%{_libdir}/${pkg}.so
 done
 
-# clean docdir
-%{__rm} -r $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}
+# desired files packaged as %doc
+%{__rm} -r $RPM_BUILD_ROOT%{_docdir}/%{name}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
