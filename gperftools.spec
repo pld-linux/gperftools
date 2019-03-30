@@ -9,20 +9,20 @@
 %ifarch x32
 %define	with_minimal	1
 %endif
-%ifnarch %{ix86} %{x8664} ia64
+%ifnarch %{ix86} %{x8664} x32 ia64
 %undefine	with_libunwind
 %endif
 
 Summary:	Fast, multi-threaded malloc and performance analysis tools
 Summary(pl.UTF-8):	Szybka, wielowątkowa implementacja malloc i narzędzia do analizy wydajności
 Name:		gperftools
-Version:	2.5
+Version:	2.7
 Release:	1
 License:	BSD
 Group:		Libraries
 # Source0Download: https://github.com/gperftools/gperftools/releases
 Source0:	https://github.com/gperftools/gperftools/releases/download/%{name}-%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	aa1eaf95dbe2c9828d0bd3a00f770f50
+# Source0-md5:	c6a852a817e9160c79bdb2d3101b4601
 URL:		https://github.com/gperftools/gperftools
 BuildRequires:	libstdc++-devel
 %{?with_libunwind:BuildRequires:	libunwind-devel >= 0.98.6}
@@ -150,7 +150,7 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 # note: INSTALL contains many perftools-specific notes
-%doc AUTHORS COPYING ChangeLog INSTALL NEWS README TODO doc/*{html,png,gif,txt}
+%doc AUTHORS COPYING ChangeLog INSTALL NEWS README TODO docs/*.{html,css,png,gif,txt}
 %attr(755,root,root) %{_libdir}/libtcmalloc_minimal_debug.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libtcmalloc_minimal_debug.so.4
 %if %{without minimal}
@@ -214,6 +214,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_includedir}/gperftools
 %{_includedir}/gperftools/malloc_extension*.h
 %{_includedir}/gperftools/malloc_hook*.h
+%{_includedir}/gperftools/nallocx.h
 %{_includedir}/gperftools/tcmalloc.h
 %{_pkgconfigdir}/libtcmalloc.pc
 %{_pkgconfigdir}/libtcmalloc_minimal.pc
