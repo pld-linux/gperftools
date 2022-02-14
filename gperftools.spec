@@ -1,4 +1,4 @@
-# NOTE: shared /%{_lib}/libtcmalloc* is useless without /usr/%{_lib}/libstdc++.so.6
+# NOTE: shared /%{_lib}/libtcmalloc* is useless without /usr/%{_lib}/libstdc++.so.6, move back to /usr?
 # TODO:
 # - subpackages for "minimal" and the rest?
 
@@ -16,16 +16,17 @@
 Summary:	Fast, multi-threaded malloc and performance analysis tools
 Summary(pl.UTF-8):	Szybka, wielowątkowa implementacja malloc i narzędzia do analizy wydajności
 Name:		gperftools
-Version:	2.7
+Version:	2.9.1
 Release:	1
 License:	BSD
 Group:		Libraries
 # Source0Download: https://github.com/gperftools/gperftools/releases
 Source0:	https://github.com/gperftools/gperftools/releases/download/%{name}-%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	c6a852a817e9160c79bdb2d3101b4601
+# Source0-md5:	cb21f2ebe71bbc8d5ad101b310be980a
 URL:		https://github.com/gperftools/gperftools
-BuildRequires:	libstdc++-devel
+BuildRequires:	libstdc++-devel >= 6:4.7
 %{?with_libunwind:BuildRequires:	libunwind-devel >= 0.98.6}
+BuildRequires:	sed >= 4.0
 Requires:	libtcmalloc = %{version}-%{release}
 Obsoletes:	google-perftools < 2.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -88,7 +89,7 @@ Szybka, wielowątkowa implementacja malloc firmy Google.
 Summary:	Fast, multi-threaded malloc by Google - header files
 Summary(pl.UTF-8):	Szybka, wielowątkowa implementacja malloc firmy Google - pliki nagłówkowe
 Group:		Development/Libraries
-Requires:	libstdc++-devel
+Requires:	libstdc++-devel >= 6:4.7
 Requires:	libtcmalloc = %{version}-%{release}
 %{?with_libunwind:Requires:	libunwind-devel >= 0.98.6}
 
@@ -114,6 +115,8 @@ statyczne.
 
 %prep
 %setup -q
+
+%{__sed} -i -e '1s,/usr/bin/env perl,%{__perl},' pprof-symbolize src/pprof
 
 %build
 %configure \
@@ -155,6 +158,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %ghost %{_libdir}/libtcmalloc_minimal_debug.so.4
 %if %{without minimal}
 %attr(755,root,root) %{_bindir}/pprof
+%attr(755,root,root) %{_bindir}/pprof-symbolize
 %attr(755,root,root) %{_libdir}/libprofiler.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libprofiler.so.0
 %attr(755,root,root) %{_libdir}/libtcmalloc_and_profiler.so.*.*.*
@@ -169,10 +173,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libtcmalloc_minimal_debug.so
 %{_libdir}/libtcmalloc_minimal_debug.la
 %{_pkgconfigdir}/libtcmalloc_minimal_debug.pc
-%{_pkgconfigdir}/libprofiler.pc
-%{_includedir}/google/profiler.h
-%{_pkgconfigdir}/libtcmalloc_debug.pc
-
 %if %{without minimal}
 %attr(755,root,root) %{_libdir}/libtcmalloc_and_profiler.so
 %attr(755,root,root) %{_libdir}/libtcmalloc_debug.so
@@ -180,7 +180,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libtcmalloc_and_profiler.la
 %{_libdir}/libtcmalloc_debug.la
 %{_libdir}/libprofiler.la
+%{_includedir}/google/profiler.h
 %{_includedir}/gperftools/profiler.h
+%{_pkgconfigdir}/libprofiler.pc
+%{_pkgconfigdir}/libtcmalloc_debug.pc
 %endif
 
 %files static
@@ -218,7 +221,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/gperftools/tcmalloc.h
 %{_pkgconfigdir}/libtcmalloc.pc
 %{_pkgconfigdir}/libtcmalloc_minimal.pc
-
 %if %{without minimal}
 %attr(755,root,root) %{_libdir}/libtcmalloc.so
 %{_libdir}/libtcmalloc.la
