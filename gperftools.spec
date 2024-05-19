@@ -16,13 +16,13 @@
 Summary:	Fast, multi-threaded malloc and performance analysis tools
 Summary(pl.UTF-8):	Szybka, wielowątkowa implementacja malloc i narzędzia do analizy wydajności
 Name:		gperftools
-Version:	2.10
+Version:	2.15
 Release:	1
 License:	BSD
 Group:		Libraries
 # Source0Download: https://github.com/gperftools/gperftools/releases
 Source0:	https://github.com/gperftools/gperftools/releases/download/%{name}-%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	62bf6c76ba855ed580de5e139bd2a483
+# Source0-md5:	0c16898d428c6f2694c1ea9e6525de8f
 URL:		https://github.com/gperftools/gperftools
 BuildRequires:	libstdc++-devel >= 6:4.7
 %{?with_libunwind:BuildRequires:	libunwind-devel >= 0.98.6}
@@ -153,7 +153,7 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 # note: INSTALL contains many perftools-specific notes
-%doc AUTHORS COPYING ChangeLog INSTALL NEWS README TODO docs/*.{html,css,png,gif,txt}
+%doc AUTHORS COPYING ChangeLog INSTALL NEWS README docs/*.{html,css,png,gif,txt}
 %attr(755,root,root) %{_libdir}/libtcmalloc_minimal_debug.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libtcmalloc_minimal_debug.so.4
 %if %{without minimal}
