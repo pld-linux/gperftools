@@ -125,6 +125,7 @@ statyczne.
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT/%{_lib}
+
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
@@ -134,6 +135,8 @@ for pkg in %{!?with_minimal:libtcmalloc} libtcmalloc_minimal; do
 	ln -snf /%{_lib}/$(basename $RPM_BUILD_ROOT/%{_lib}/${pkg}.so.*.*.*) \
 		$RPM_BUILD_ROOT/%{_libdir}/${pkg}.so
 done
+
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/lib*.la
 
 # desired files packaged as %doc
 %{__rm} -r $RPM_BUILD_ROOT%{_docdir}/%{name}
@@ -168,15 +171,11 @@ rm -rf $RPM_BUILD_ROOT
 %files devel
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libtcmalloc_minimal_debug.so
-%{_libdir}/libtcmalloc_minimal_debug.la
 %{_pkgconfigdir}/libtcmalloc_minimal_debug.pc
 %if %{without minimal}
 %attr(755,root,root) %{_libdir}/libtcmalloc_and_profiler.so
 %attr(755,root,root) %{_libdir}/libtcmalloc_debug.so
 %attr(755,root,root) %{_libdir}/libprofiler.so
-%{_libdir}/libtcmalloc_and_profiler.la
-%{_libdir}/libtcmalloc_debug.la
-%{_libdir}/libprofiler.la
 %{_includedir}/google/profiler.h
 %{_includedir}/gperftools/profiler.h
 %{_pkgconfigdir}/libprofiler.pc
@@ -204,7 +203,6 @@ rm -rf $RPM_BUILD_ROOT
 %files -n libtcmalloc-devel
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libtcmalloc_minimal.so
-%{_libdir}/libtcmalloc_minimal.la
 %dir %{_includedir}/google
 %{_includedir}/google/malloc_extension*.h
 %{_includedir}/google/malloc_hook*.h
@@ -217,7 +215,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_pkgconfigdir}/libtcmalloc_minimal.pc
 %if %{without minimal}
 %attr(755,root,root) %{_libdir}/libtcmalloc.so
-%{_libdir}/libtcmalloc.la
 %{_includedir}/google/heap-*.h
 %{_includedir}/google/stacktrace.h
 %{_includedir}/gperftools/heap-*.h
