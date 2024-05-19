@@ -209,23 +209,23 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libtcmalloc_minimal.so
 %{_libdir}/libtcmalloc_minimal.la
 %dir %{_includedir}/google
-%{_includedir}/google/heap-*.h
 %{_includedir}/google/malloc_extension*.h
 %{_includedir}/google/malloc_hook*.h
-%{_includedir}/google/stacktrace.h
 %{_includedir}/google/tcmalloc.h
 %dir %{_includedir}/gperftools
 %{_includedir}/gperftools/malloc_extension*.h
 %{_includedir}/gperftools/malloc_hook*.h
 %{_includedir}/gperftools/nallocx.h
 %{_includedir}/gperftools/tcmalloc.h
-%{_pkgconfigdir}/libtcmalloc.pc
 %{_pkgconfigdir}/libtcmalloc_minimal.pc
 %if %{without minimal}
 %attr(755,root,root) %{_libdir}/libtcmalloc.so
 %{_libdir}/libtcmalloc.la
+%{_includedir}/google/heap-*.h
+%{_includedir}/google/stacktrace.h
 %{_includedir}/gperftools/heap-*.h
 %{_includedir}/gperftools/stacktrace.h
+%{_pkgconfigdir}/libtcmalloc.pc
 %endif
 
 %files -n libtcmalloc-static
