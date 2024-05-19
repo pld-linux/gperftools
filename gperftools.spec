@@ -6,9 +6,6 @@
 %bcond_with	minimal		# build only build only tcmalloc-minimal
 %bcond_without	libunwind	# libunwind for backtraces (esp. without frame info)
 
-%ifarch x32
-%define	with_minimal	1
-%endif
 %ifnarch %{ix86} %{x8664} x32 ia64
 %undefine	with_libunwind
 %endif
