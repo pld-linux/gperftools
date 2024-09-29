@@ -13,15 +13,15 @@
 Summary:	Fast, multi-threaded malloc and performance analysis tools
 Summary(pl.UTF-8):	Szybka, wielowątkowa implementacja malloc i narzędzia do analizy wydajności
 Name:		gperftools
-Version:	2.15
+Version:	2.16
 Release:	1
 License:	BSD
 Group:		Libraries
 # Source0Download: https://github.com/gperftools/gperftools/releases
 Source0:	https://github.com/gperftools/gperftools/releases/download/%{name}-%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	0c16898d428c6f2694c1ea9e6525de8f
+# Source0-md5:	f9ce50baf5e42560833a25896166f740
 URL:		https://github.com/gperftools/gperftools
-BuildRequires:	libstdc++-devel >= 6:4.7
+BuildRequires:	libstdc++-devel >= 6:7
 %{?with_libunwind:BuildRequires:	libunwind-devel >= 0.98.6}
 BuildRequires:	sed >= 4.0
 Requires:	libtcmalloc = %{version}-%{release}
@@ -86,7 +86,7 @@ Szybka, wielowątkowa implementacja malloc firmy Google.
 Summary:	Fast, multi-threaded malloc by Google - header files
 Summary(pl.UTF-8):	Szybka, wielowątkowa implementacja malloc firmy Google - pliki nagłówkowe
 Group:		Development/Libraries
-Requires:	libstdc++-devel >= 6:4.7
+Requires:	libstdc++-devel >= 6:7
 Requires:	libtcmalloc = %{version}-%{release}
 %{?with_libunwind:Requires:	libunwind-devel >= 0.98.6}
 
@@ -176,7 +176,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libtcmalloc_and_profiler.so
 %attr(755,root,root) %{_libdir}/libtcmalloc_debug.so
 %attr(755,root,root) %{_libdir}/libprofiler.so
-%{_includedir}/google/profiler.h
 %{_includedir}/gperftools/profiler.h
 %{_pkgconfigdir}/libprofiler.pc
 %{_pkgconfigdir}/libtcmalloc_debug.pc
@@ -203,10 +202,6 @@ rm -rf $RPM_BUILD_ROOT
 %files -n libtcmalloc-devel
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libtcmalloc_minimal.so
-%dir %{_includedir}/google
-%{_includedir}/google/malloc_extension*.h
-%{_includedir}/google/malloc_hook*.h
-%{_includedir}/google/tcmalloc.h
 %dir %{_includedir}/gperftools
 %{_includedir}/gperftools/malloc_extension*.h
 %{_includedir}/gperftools/malloc_hook*.h
@@ -215,8 +210,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_pkgconfigdir}/libtcmalloc_minimal.pc
 %if %{without minimal}
 %attr(755,root,root) %{_libdir}/libtcmalloc.so
-%{_includedir}/google/heap-*.h
-%{_includedir}/google/stacktrace.h
 %{_includedir}/gperftools/heap-*.h
 %{_includedir}/gperftools/stacktrace.h
 %{_pkgconfigdir}/libtcmalloc.pc
