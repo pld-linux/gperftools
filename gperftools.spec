@@ -13,13 +13,13 @@
 Summary:	Fast, multi-threaded malloc and performance analysis tools
 Summary(pl.UTF-8):	Szybka, wielowątkowa implementacja malloc i narzędzia do analizy wydajności
 Name:		gperftools
-Version:	2.16
+Version:	2.18.1
 Release:	1
 License:	BSD
 Group:		Libraries
 # Source0Download: https://github.com/gperftools/gperftools/releases
 Source0:	https://github.com/gperftools/gperftools/releases/download/%{name}-%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	f9ce50baf5e42560833a25896166f740
+# Source0-md5:	129c01f6f5297f0482b33d431b5ec555
 URL:		https://github.com/gperftools/gperftools
 BuildRequires:	libstdc++-devel >= 6:7
 %{?with_libunwind:BuildRequires:	libunwind-devel >= 0.98.6}
@@ -113,8 +113,6 @@ statyczne.
 %prep
 %setup -q
 
-%{__sed} -i -e '1s,/usr/bin/env perl,%{__perl},' pprof-symbolize src/pprof
-
 %build
 %configure \
 	%{!?with_libunwind:--disable-libunwind} \
@@ -153,29 +151,26 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 # note: INSTALL contains many perftools-specific notes
-%doc AUTHORS COPYING ChangeLog INSTALL NEWS README docs/*.{html,css,png,gif,txt}
-%attr(755,root,root) %{_libdir}/libtcmalloc_minimal_debug.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libtcmalloc_minimal_debug.so.4
+%doc AUTHORS COPYING ChangeLog INSTALL NEWS README docs/*.{gif,html,png}
+%{_libdir}/libtcmalloc_minimal_debug.so.*.*.*
+%ghost %{_libdir}/libtcmalloc_minimal_debug.so.4
 %if %{without minimal}
-%attr(755,root,root) %{_bindir}/pprof
-%attr(755,root,root) %{_bindir}/pprof-symbolize
-%attr(755,root,root) %{_libdir}/libprofiler.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libprofiler.so.0
-%attr(755,root,root) %{_libdir}/libtcmalloc_and_profiler.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libtcmalloc_and_profiler.so.4
-%attr(755,root,root) %{_libdir}/libtcmalloc_debug.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libtcmalloc_debug.so.4
-%{_mandir}/man1/pprof.1*
+%{_libdir}/libprofiler.so.*.*.*
+%ghost %{_libdir}/libprofiler.so.0
+%{_libdir}/libtcmalloc_and_profiler.so.*.*.*
+%ghost %{_libdir}/libtcmalloc_and_profiler.so.4
+%{_libdir}/libtcmalloc_debug.so.*.*.*
+%ghost %{_libdir}/libtcmalloc_debug.so.4
 %endif
 
 %files devel
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libtcmalloc_minimal_debug.so
+%{_libdir}/libtcmalloc_minimal_debug.so
 %{_pkgconfigdir}/libtcmalloc_minimal_debug.pc
 %if %{without minimal}
-%attr(755,root,root) %{_libdir}/libtcmalloc_and_profiler.so
-%attr(755,root,root) %{_libdir}/libtcmalloc_debug.so
-%attr(755,root,root) %{_libdir}/libprofiler.so
+%{_libdir}/libtcmalloc_and_profiler.so
+%{_libdir}/libtcmalloc_debug.so
+%{_libdir}/libprofiler.so
 %{_includedir}/gperftools/profiler.h
 %{_pkgconfigdir}/libprofiler.pc
 %{_pkgconfigdir}/libtcmalloc_debug.pc
@@ -192,16 +187,16 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -n libtcmalloc
 %defattr(644,root,root,755)
-%attr(755,root,root) /%{_lib}/libtcmalloc_minimal.so.*.*.*
-%attr(755,root,root) %ghost /%{_lib}/libtcmalloc_minimal.so.4
+/%{_lib}/libtcmalloc_minimal.so.*.*.*
+%ghost /%{_lib}/libtcmalloc_minimal.so.4
 %if %{without minimal}
-%attr(755,root,root) /%{_lib}/libtcmalloc.so.*.*.*
-%attr(755,root,root) %ghost /%{_lib}/libtcmalloc.so.4
+/%{_lib}/libtcmalloc.so.*.*.*
+%ghost /%{_lib}/libtcmalloc.so.4
 %endif
 
 %files -n libtcmalloc-devel
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libtcmalloc_minimal.so
+%{_libdir}/libtcmalloc_minimal.so
 %dir %{_includedir}/gperftools
 %{_includedir}/gperftools/malloc_extension*.h
 %{_includedir}/gperftools/malloc_hook*.h
@@ -209,7 +204,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/gperftools/tcmalloc.h
 %{_pkgconfigdir}/libtcmalloc_minimal.pc
 %if %{without minimal}
-%attr(755,root,root) %{_libdir}/libtcmalloc.so
+%{_libdir}/libtcmalloc.so
 %{_includedir}/gperftools/heap-*.h
 %{_includedir}/gperftools/stacktrace.h
 %{_pkgconfigdir}/libtcmalloc.pc
